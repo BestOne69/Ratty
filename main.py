@@ -1,6 +1,7 @@
 import random
 import string
 import streamlit as st
+from PIL import Image
 import qrcode
 
 st.title("Ratty")
