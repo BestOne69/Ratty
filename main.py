@@ -1,6 +1,7 @@
 import random
 import string
 import streamlit as st
+import qrcode
 
 st.title("Ratty")
 
@@ -21,18 +22,24 @@ special = "?!()&#@<>^%[]"
 score = 0
 
 def main():
-    if st.button("Check Entropy"):
+    if st.button("Check Entropy", type="primary"):
         st.session_state.stage = "entropy"
 
     st.write(" ")
 
-    if st.button("Time to Crack"):
+    if st.button("Time to Crack", type="primary"):
          st.session_state.stage = "crack"
 
     st.write(" ")
 
-    if st.button("Generate Password"):
+    if st.button("Generate Password", type="primary"):
          st.session_state.stage = "generate"
+
+    st.write(" ")
+
+    if st.button("Make Qr", type="primary"):
+         st.session_state.stage = "qr"
+         
 
 def length():
     if len(password) >= 8:
@@ -123,6 +130,10 @@ def crack():
     elif score >= 4:
         st.write("Its Good one maybe Takes Days and years To Crack It")
 
+    
+    if st.button("Return to Home"):
+         st.session_state.stage = "main"
+
 
 def entropy():
     st.write(" ")
@@ -133,6 +144,27 @@ def entropy():
 
     if st.button(" Return To home"):
         st.session_state.stage = "main"
+
+def qr():
+     st.write("Your Password Qr")
+
+     st.write(" ")
+
+     new = qrcode.make(password)
+
+     new = new.get_image()
+
+     
+
+     st.write(" ")
+
+     st.image(new)
+
+     st.write(" ")
+    
+     if st.button("Return to home"):
+       st.session_state.stage = "main"
+     
 
 
 score += int(upper())
@@ -160,6 +192,8 @@ elif st.session_state.stage == "crack":
 
 elif st.session_state.stage == "generate":
      generate()
+elif st.session_state.stage == "qr":
+     qr()
 
 
 
